@@ -67,8 +67,12 @@ void SubjectSprite::draw() const {
   images[currentFrame]->draw(getX(), getY(), getScale());
 }
 
+void SubjectSprite::shoot() { 
+    bullets.shoot( Vector2f(x, y), vel ); 
+}
+
+
 void SubjectSprite::stop() {
-//  setVelocity( Vector2f(0, 0) );
   setVelocityX( 0.93*getVelocityX() );
   setVelocityY(0);
 }

@@ -13,7 +13,6 @@
 #include "frameGenerator.h"
 #include "twoWayMultiSprite.h"
 #include "collisionStrategy.h"
-//#include "player.h"
 
 const SDL_Color yellow = {255, 255, 0, 255};
 
@@ -209,6 +208,10 @@ void Engine::play() {
       if (keystate[SDL_SCANCODE_S]) {
         static_cast<SubjectSprite*>(player)->down();
       }
+      if (keystate[SDL_SCANCODE_SPACE]) {
+        static_cast<SubjectSprite*>(player)->shoot();
+      }
+
       draw();
       update(ticks);
       if ( makeVideo ) {

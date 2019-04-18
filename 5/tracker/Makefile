@@ -18,6 +18,8 @@ OBJS = \
 	imageFactory.o \
 	frameGenerator.o \
 	sprite.o \
+	bullet.o \
+	bullets.o \
 	multisprite.o \
 	twoWayMultiSprite.o \
 	vector2f.o \
@@ -27,6 +29,7 @@ OBJS = \
 	smartSprite.o \
 	collisionStrategy.o \
 	main.o
+
 EXEC = run
 
 %.o: %.cpp %.h

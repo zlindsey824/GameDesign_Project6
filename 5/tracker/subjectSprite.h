@@ -5,6 +5,7 @@
 #include <list>
 #include <cmath>
 #include "drawable.h"
+#include "bullets.h"
 
 class SmartSprite;
 
@@ -15,6 +16,7 @@ public:
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
+  virtual void shoot();
   void attach( SmartSprite* o ) { observers.push_back(o); }
   void detach( SmartSprite* o );
 
@@ -50,6 +52,8 @@ private:
   int worldHeight;
 
   Vector2f initialVelocity;
+
+  Bullets bullets;
 
   void advanceFrame(Uint32 ticks);
   SubjectSprite& operator=(const SubjectSprite&);
