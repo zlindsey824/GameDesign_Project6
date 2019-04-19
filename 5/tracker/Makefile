@@ -28,6 +28,8 @@ OBJS = \
 	subjectSprite.o \
 	smartSprite.o \
 	collisionStrategy.o \
+	chunk.o \
+	explodingSprite.o \
 	main.o
 
 EXEC = run
