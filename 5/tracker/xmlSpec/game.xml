@@ -4,6 +4,7 @@
      So make sure to include your name as part of the screenTitle -->
 <title>SNZ</title>
 <maxStringSize>50</maxStringSize>
+<collisionStrategy>PerPixel</collisionStrategy>
 
 <frameCapOn>true</frameCapOn>
 <period>17</period>
@@ -56,11 +57,13 @@
 <Helicopter>
   <file>assets/helicopter.png</file>
   <startLoc x="50" y="140"/>
+  <speed x="300" y="200"/>
   <frames>8</frames>
   <frameInterval>80</frameInterval>
   <speedX>300</speedX>
   <speedY>200</speedY>
   <transparency>false</transparency>
+  <bulletName>helicopterBullet</bulletName>
 </Helicopter>
 
 <HelicopterLeft>
@@ -123,5 +126,17 @@
   <speedY>200</speedY>
   <transparency>true</transparency>
 </Grumpbird>
+
+<helicopterBullet>
+  <file>assets/heroBullet.png</file>
+  <startLoc x="227" y="240"/>
+  <speed x="300" y="0"/>
+  <speedX>300</speedX>
+  <speedY>0</speedY>
+  <interval>50</interval>
+  <distance>320</distance>
+  <scale>1.0</scale>
+  <transparency>false</transparency>
+</helicopterBullet>
 
 </GameData>

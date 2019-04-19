@@ -13,6 +13,7 @@
 #include "frameGenerator.h"
 #include "twoWayMultiSprite.h"
 #include "collisionStrategy.h"
+#include "bullets.h"
 
 const SDL_Color yellow = {255, 255, 0, 255};
 
