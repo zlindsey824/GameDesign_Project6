@@ -13,7 +13,7 @@
 #include "frameGenerator.h"
 #include "twoWayMultiSprite.h"
 #include "collisionStrategy.h"
-//#include "player.h"
+#include "sound.h"
 
 const SDL_Color yellow = {255, 255, 0, 255};
 
@@ -156,6 +156,8 @@ void Engine::play() {
   bool done = false;
   Uint32 ticks = clock.getElapsedTicks();
   FrameGenerator frameGen;
+
+  SDLSound sound;
 
   while ( !done ) {
     // The next loop polls for events, guarding against key bounce:
