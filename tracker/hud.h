@@ -38,6 +38,25 @@ class HudTips : public Hud {
   HudTips& operator=(const HudTips&) = delete;
 };
 
+class HudBulletPool : public Hud {
+ public:
+  static HudBulletPool& getInstance();
+  virtual bool isVisible() { return visible; }
+  virtual void setVisible(const bool v) { visible = v; }
+  void draw(unsigned int, unsigned int);
+
+ private:
+  int width;
+  int height;
+  Vector2f pos;
+  bool visible;
+  SDL_Color backgroundColor;
+  SDL_Color outlineColor;
+  SDL_Color textColor;
+  HudBulletPool();
+  HudBulletPool(const HudBulletPool&) = delete;
+  HudBulletPool& operator=(const HudBulletPool&) = delete;
+};
 
 
 #endif

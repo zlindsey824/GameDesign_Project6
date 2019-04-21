@@ -64,3 +64,56 @@ void HudTips::draw() {
     io.writeText("P: Pause", textColor, r.x + boundary_x + 1.5*interval_x, r.y + boundary_y + interval_y * 4);
   }
 }
+
+
+HudBulletPool& HudBulletPool::getInstance() {
+  static HudBulletPool instance;
+  return instance;
+}
+
+HudBulletPool::HudBulletPool()
+    : width(Gamedata::getInstance().getXmlInt("hudBulletPool/width")),
+      height(Gamedata::getInstance().getXmlInt("hudBulletPool/height")),
+      pos(Vector2f(Gamedata::getInstance().getXmlInt("hudBulletPool/position/x"),
+                   Gamedata::getInstance().getXmlInt("hudBulletPool/position/y"))),
+      visible(true),
+      backgroundColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/r")),
+                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/g")),
+                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/b")),
+                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/a"))}),
+      outlineColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/r")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/g")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/b")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/a"))}),
+      textColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/r")),
+                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/g")),
+                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/b")),
+                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/a"))}) {}
+
+void HudBulletPool::draw(unsigned int activebuffernum, unsigned int freebuffernum) {
+  if (isVisible()) {
+    SDL_Renderer* renderer = IoMod::getInstance().getRenderer();
+
+    SDL_Rect r;
+    r.x = pos[0];
+    r.y = pos[1];
+    r.w = width;
+    r.h = height;
+
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+    SDL_RenderFillRect(renderer, &r);
+    SDL_SetRenderDrawColor(renderer, outlineColor.r, outlineColor.g, outlineColor.b, outlineColor.a);
+    SDL_RenderDrawRect(renderer, &r);
+
+    std::stringstream strm_bullet;
+    strm_bullet << "OBJECT BULLET POOL";
+    IoMod::getInstance().writeText(strm_bullet.str(), r.x + width / 2 - 65, r.y + boundary_y);
+    strm_bullet.clear();
+    strm_bullet << "bulletslist: " << activebuffernum;
+    IoMod::getInstance().writeText(strm_bullet.str(), textColor, r.x + 20, r.y + 40);
+    strm_bullet.clear();
+    strm_bullet << "freelist: " << freebuffernum;
+    IoMod::getInstance().writeText(strm_bullet.str(), textColor, r.x + 20, r.y + 65);
+  }
+}

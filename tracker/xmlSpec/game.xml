@@ -35,6 +35,16 @@
   <textColor r="255" g="255" b="255" a="0"/>
 </hudTips>
 
+<!-- Setting for Hud -->
+<hudBulletPool>
+  <width>200</width>
+  <height>100</height>
+  <position x="515" y="15"/>
+  <backgroundColor r="255" g="255" b="255" a="120"/>
+  <outlineColor r="255" g="0" b="0" a="120"/>
+  <textColor r="255" g="255" b="255" a="0"/>
+</hudBulletPool>
+
 <clickOff>
   <file>assets/clickoff.png</file>
   <startLoc x="340" y="170"/>
