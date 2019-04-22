@@ -14,6 +14,7 @@
 <myname>Shu Le Zhu, Noah Williams, Zeandre Lindsey</myname>
 
 <numberOfBalloons>25</numberOfBalloons>
+<numOfBullets>5</numOfBullets>
 
 <view>
   <width>854</width>
@@ -59,7 +60,7 @@
   <startLoc x="50" y="140"/>
   <speed x="300" y="200"/>
   <frames>8</frames>
-  <frameInterval>80</frameInterval>
+  <frameInterval>10</frameInterval>
   <speedX>300</speedX>
   <speedY>200</speedY>
   <transparency>false</transparency>
@@ -70,7 +71,7 @@
   <file>assets/helicopterLeft.png</file>
   <startLoc x="50" y="140"/>
   <frames>8</frames>
-  <frameInterval>80</frameInterval>
+  <frameInterval>10</frameInterval>
   <speedX>300</speedX>
   <speedY>200</speedY>
   <transparency>false</transparency>
@@ -133,7 +134,7 @@
   <speed x="300" y="0"/>
   <speedX>300</speedX>
   <speedY>0</speedY>
-  <interval>50</interval>
+  <interval>100</interval>
   <distance>320</distance>
   <scale>1.0</scale>
   <transparency>false</transparency>
