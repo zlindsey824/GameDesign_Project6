@@ -147,8 +147,8 @@ bool PerPixelCollisionStrategy::execute(
   const SDL_Surface* temp2 = obj2.getSurface();
   SDL_Surface* surface2 = scaleSurface(temp2, width2, height2);
 
-  SDL_LockSurface(surface1);
-  SDL_LockSurface(surface2);
+  //SDL_LockSurface(surface1);
+  //SDL_LockSurface(surface2);
   Uint32 *pixels1 = static_cast<Uint32 *>(surface1->pixels);
   Uint32 *pixels2 = static_cast<Uint32 *>(surface2->pixels);
   unsigned pixel1;
@@ -172,8 +172,8 @@ bool PerPixelCollisionStrategy::execute(
       }
     }
   }
-  SDL_UnlockSurface(surface1);
-  SDL_UnlockSurface(surface2);
+  //SDL_UnlockSurface(surface1);
+  //SDL_UnlockSurface(surface2);
   SDL_FreeSurface(surface1);
   SDL_FreeSurface(surface2);
 

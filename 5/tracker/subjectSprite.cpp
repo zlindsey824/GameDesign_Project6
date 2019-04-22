@@ -3,6 +3,8 @@
 #include "gameData.h"
 #include "imageFactory.h"
 #include "renderContext.h"
+#include "collisionStrategy.h"
+#include "explodingSprite.h"
 
 void SubjectSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -11,6 +13,7 @@ void SubjectSprite::advanceFrame(Uint32 ticks) {
 		timeSinceLastFrame = 0;
 	}
 }
+
 
 SubjectSprite::SubjectSprite( const std::string& name) :
   Drawable(name,
@@ -30,6 +33,10 @@ SubjectSprite::SubjectSprite( const std::string& name) :
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   initialVelocity(getVelocity()),
+
+  collisionStrategy(new PerPixelCollisionStrategy),
+  explosion( nullptr),
+
   bulletName(Gamedata::getInstance().getXmlStr(name+"/bulletName")),
   bullets(bulletName),
   bulletSpeed(Gamedata::getInstance().getXmlInt(bulletName+"/speedX")),
@@ -60,6 +67,29 @@ void SubjectSprite::shoot() {
     timeSinceLastBullet = 0;
   }
 
+}
+
+
+bool SubjectSprite::shot(const Drawable* obj ) {
+  if ( bullets.collided(obj) ) return true;
+  else return false;
+}
+
+bool SubjectSprite::collidedWith(const Drawable* obj ) {
+  if ( explosion ) return false;
+  if ( collisionStrategy->execute(*this, *obj) ) {
+    return true;
+  }
+  return false;
+}
+
+void SubjectSprite::explode() { 
+  if ( !explosion ) {
+    Sprite 
+    sprite(getName(), getPosition(), getVelocity(), images[currentFrame]);
+    sprite.setScale( getScale() );
+    explosion = new ExplodingSprite(sprite);
+  }
 }
 
 

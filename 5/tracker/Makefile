@@ -30,6 +30,8 @@ OBJS = \
 	collisionStrategy.o \
 	menu.o \
 	menuEngine.o \
+	chunk.o \
+	explodingSprite.o \
 	main.o
 
 EXEC = run

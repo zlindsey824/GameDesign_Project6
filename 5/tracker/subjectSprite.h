@@ -8,12 +8,16 @@
 #include "bullets.h"
 
 class SmartSprite;
+class CollisionStrategy;
+class ExplodingSprite;
 
 class SubjectSprite : public Drawable {
 public:
+  
   SubjectSprite(const std::string&);
   SubjectSprite(const SubjectSprite&) = default;
   SubjectSprite& operator=(const SubjectSprite&) = default;
+
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
@@ -22,6 +26,9 @@ public:
   unsigned int freeCount() const { return bullets.freeCount(); }
   void attach( SmartSprite* o ) { observers.push_back(o); }
   void detach( SmartSprite* o );
+  virtual bool shot(const Drawable*);
+  virtual void explode();
+  virtual bool collidedWith(const Drawable*);
 
   virtual const Image* getImage() const {
     return images[currentFrame];
@@ -55,6 +62,9 @@ private:
   int worldHeight;
 
   Vector2f initialVelocity;
+
+  CollisionStrategy* collisionStrategy;
+  ExplodingSprite* explosion;
 
   std::string bulletName;
   Bullets bullets;
