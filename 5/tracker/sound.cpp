@@ -39,9 +39,9 @@ SDLSound::SDLSound() :
 
   startMusic();
 
-  // sounds.push_back( Mix_LoadWAV("sound/Boom.wav") );
-  // sounds.push_back( Mix_LoadWAV("sound/Gun.wav") );
-  // sounds.push_back( Mix_LoadWAV("sound/Thump.wav") );
+  sounds.push_back( Mix_LoadWAV("sound/bullet_sound.wav") );
+  sounds.push_back( Mix_LoadWAV("sound/balloon_sound.wav") );
+  sounds.push_back( Mix_LoadWAV("sound/heli_explosion_sound.wav") );
   // sounds.push_back( Mix_LoadWAV("sound/phaser.wav") );
   // sounds.push_back( Mix_LoadWAV("sound/Putt1.wav") );
   // sounds.push_back( Mix_LoadWAV("sound/explosion.wav") );

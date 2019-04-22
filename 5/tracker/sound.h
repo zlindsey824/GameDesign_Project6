@@ -1,9 +1,12 @@
+#ifndef SOUND_H
+#define SOUND_H
+
 #include <vector>
 #include <SDL.h>
 #include <SDL_mixer.h>
 
 // In this demo, we use Mix_Music *Mix_LoadMUS(const char *file)
-// Where file is the name of the music file to use. 
+// Where file is the name of the music file to use.
 //
 // SDL_mixer supports music and sound samples from the following formats:
 // - WAVE/RIFF (.wav)
@@ -39,3 +42,4 @@ private:
   SDLSound& operator=(const SDLSound&);
 };
 
+#endif

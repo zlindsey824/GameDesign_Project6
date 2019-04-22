@@ -46,6 +46,7 @@ Engine::Engine() :
   sprites(),
   strategies(),
   currentStrategy(0),
+  sound(),
   collision(false),
   makeVideo( false )
 
@@ -67,6 +68,7 @@ Engine::Engine() :
   //star->setScale(1.5);
   Viewport::getInstance().setObjectToTrack(player);
   std::cout << "Loading complete" << std::endl;
+  hudTips.setVisible(!hudTips.isVisible());
 }
 
 
@@ -74,7 +76,7 @@ void Engine::draw() const {
   //world.draw();
   cloud.draw();
   rainbow.draw();
-  //hudTips.draw();
+  hudTips.draw();
   hudPool.draw(player->bulletCount(), player->freeCount());
 	for ( const Drawable* sprite : sprites ) {
     sprite->draw();
@@ -134,14 +136,16 @@ void Engine::checkForCollisions() {
     if ( player->shot(*it) ) {
       SmartSprite* doa = *it;
       doa->explode();
+      sound[1];
       return;
-      // player->detach(doa);
+       player->detach(doa);
       // delete doa;
       //
       // it = sprites.erase(it);
     }
     else if ( strategies[currentStrategy]->execute(*player, **it) ){
       player->explode();
+      sound[2];
       std::cout << "Boom" << std::endl;
       return;
     }
@@ -169,7 +173,7 @@ void Engine::play() {
   Uint32 ticks = clock.getElapsedTicks();
   FrameGenerator frameGen;
 
-  SDLSound sound;
+  // SDLSound sound;
 
   while ( !done ) {
     // The next loop polls for events, guarding against key bounce:
@@ -182,13 +186,14 @@ void Engine::play() {
           break;
         }
         if (keystate[SDL_SCANCODE_F1]) {
-          if (clock.isPaused())
-            clock.unpause();
-          else {
-            clock.pause();
+          // if (clock.isPaused())
+          //   clock.unpause();
+          // else {
+          //   clock.pause();
             hudTips.setVisible(!hudTips.isVisible());
+            hudPool.setVisible(!hudTips.isVisible());
 
-          }
+          // }
         }
         if ( keystate[SDL_SCANCODE_P] ) {
           if ( clock.isPaused() ) clock.unpause();
@@ -200,7 +205,7 @@ void Engine::play() {
           clock.unpause();
         }
         if ( keystate[SDL_SCANCODE_E] ) {
-          sprites[0]->explode();
+          player->explode();
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;
@@ -231,6 +236,7 @@ void Engine::play() {
       }
       if (keystate[SDL_SCANCODE_SPACE]) {
         static_cast<SubjectSprite*>(player)->shoot();
+        sound[0];
       }
 
       draw();

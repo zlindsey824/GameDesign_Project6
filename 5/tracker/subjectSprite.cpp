@@ -86,7 +86,7 @@ bool SubjectSprite::collidedWith(const Drawable* obj ) {
 void SubjectSprite::explode() {
   if ( !explosion ) {
     Sprite sprite(getName(), getPosition(), getVelocity(), getImage());
-    sprite.setScale( getScale() );
+    // sprite.setScale( getScale() );
     explosion = new ExplodingSprite(sprite);
   }
 }

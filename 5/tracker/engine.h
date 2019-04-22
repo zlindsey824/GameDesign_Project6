@@ -8,6 +8,7 @@
 #include "world.h"
 #include "viewport.h"
 #include "hud.h"
+#include "sound.h"
 #include "menuEngine.h"
 
 
@@ -44,6 +45,7 @@ private:
   std::vector<SmartSprite*> sprites;
   std::vector<CollisionStrategy*> strategies;
   int currentStrategy;
+  SDLSound sound;
   bool collision;
   bool makeVideo;
 
