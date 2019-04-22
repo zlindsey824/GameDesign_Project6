@@ -83,10 +83,9 @@ bool SubjectSprite::collidedWith(const Drawable* obj ) {
   return false;
 }
 
-void SubjectSprite::explode() { 
+void SubjectSprite::explode() {
   if ( !explosion ) {
-    Sprite 
-    sprite(getName(), getPosition(), getVelocity(), images[currentFrame]);
+    Sprite sprite(getName(), getPosition(), getVelocity(), getImage());
     sprite.setScale( getScale() );
     explosion = new ExplodingSprite(sprite);
   }
@@ -122,6 +121,7 @@ void SubjectSprite::down()  {
 }
 
 void SubjectSprite::detach( SmartSprite* o ) {
+  o->explode();
   std::list<SmartSprite*>::iterator ptr = observers.begin();
   while ( ptr != observers.end() ) {
     if ( *ptr == o ) {

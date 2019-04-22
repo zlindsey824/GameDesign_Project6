@@ -1,6 +1,15 @@
 #include "multisprite.h"
 #include "gameData.h"
 #include "imageFactory.h"
+#include "sprite.h"
+#include "explodingSprite.h"
+
+void MultiSprite::explode() {
+  if ( !explosion ) {
+    Sprite sprite(getName(), getPosition(), getVelocity(), getImage());
+    explosion = new ExplodingSprite( sprite );
+  }
+}
 
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
@@ -18,7 +27,7 @@ MultiSprite::MultiSprite( const std::string& name) :
                     Gamedata::getInstance().getXmlInt(name+"/speedY")+rand()%20+rand()%20)
            ),
   images( ImageFactory::getInstance().getImages(name) ),
-
+  explosion( nullptr ),
   currentFrame(0),
   numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
   frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval")),
@@ -30,6 +39,7 @@ MultiSprite::MultiSprite( const std::string& name) :
 MultiSprite::MultiSprite(const MultiSprite& s) :
   Drawable(s),
   images(s.images),
+  explosion(s.explosion),
   currentFrame(s.currentFrame),
   numberOfFrames( s.numberOfFrames ),
   frameInterval( s.frameInterval ),
@@ -51,10 +61,22 @@ MultiSprite& MultiSprite::operator=(const MultiSprite& s) {
 }
 
 void MultiSprite::draw() const {
+  if ( explosion ) {
+     explosion->draw();
+     return;
+  }
   images[currentFrame]->draw(getX(), getY(), getScale());
 }
 
 void MultiSprite::update(Uint32 ticks) {
+  if ( explosion ) {
+     explosion->update(ticks);
+     if ( explosion->chunkCount() == 0) {
+       delete explosion;
+       explosion = nullptr;
+     }
+     return;
+  }
   advanceFrame(ticks);
 
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;

@@ -130,11 +130,19 @@ void Engine::draw() const {
 void Engine::checkForCollisions() {
   auto it = sprites.begin();
   while ( it != sprites.end() ) {
-    if ( strategies[currentStrategy]->execute(*player, **it) ) {
+    if ( player->shot(*it) ) {
       SmartSprite* doa = *it;
-      player->detach(doa);
-      delete doa;
-      it = sprites.erase(it);
+      doa->explode();
+      return;
+      // player->detach(doa);
+      // delete doa;
+      //
+      // it = sprites.erase(it);
+    }
+    else if ( strategies[currentStrategy]->execute(*player, **it) ){
+      player->explode();
+      std::cout << "Boom" << std::endl;
+      return;
     }
     else ++it;
   }
@@ -187,6 +195,9 @@ void Engine::play() {
           clock.pause();
           menu.play();
           clock.unpause();
+        }
+        if ( keystate[SDL_SCANCODE_E] ) {
+          sprites[0]->explode();
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;

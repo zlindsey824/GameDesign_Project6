@@ -11,15 +11,15 @@ Bullets::~Bullets() {
 Bullets::Bullets(const std::string& n) :
   name(n),
   myVelocity(
-    Gamedata::getInstance().getXmlInt(name+"/speed/x"), 
+    Gamedata::getInstance().getXmlInt(name+"/speed/x"),
     Gamedata::getInstance().getXmlInt(name+"/speed/y")
   ),
   numOfBullets(Gamedata::getInstance().getXmlInt("numOfBullets")),
   bulletList(),
   freeList(),
   strategy(NULL)
-{ 
-  const string thisStrategy = 
+{
+  const string thisStrategy =
     Gamedata::getInstance().getXmlStr("collisionStrategy");
   if ( thisStrategy == "PerPixel" ) {
     strategy = new PerPixelCollisionStrategy;
@@ -57,7 +57,7 @@ void Bullets::shoot(const Vector2f& pos, const Vector2f& objVel) {
 	}
 }
 
-bool Bullets::collided(const Drawable* obj) const { 
+bool Bullets::collided(const Drawable* obj) const {
   std::list<Bullet>::const_iterator ptr = bulletList.begin();
   while (ptr != bulletList.end()) {
     if ( strategy->execute(*ptr, *obj) ) {
@@ -68,20 +68,20 @@ bool Bullets::collided(const Drawable* obj) const {
   return false;
 }
 
-void Bullets::draw() const { 
+void Bullets::draw() const {
   for ( const auto& bullet : bulletList ) {
     bullet.draw();
   }
 }
 
-void Bullets::update(int ticks) { 
+void Bullets::update(int ticks) {
   std::list<Bullet>::iterator ptr = bulletList.begin();
   while (ptr != bulletList.end()) {
     ptr->update(ticks);
     if (ptr->goneTooFar()) {  // Check to see if we should free a chunk
     	freeList.push_back(*ptr);
       ptr = bulletList.erase(ptr);
-    }   
+    }
     else ++ptr;
   }
 }

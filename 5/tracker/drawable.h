@@ -21,6 +21,7 @@ public:
 
   virtual void draw() const = 0;
   virtual void update(Uint32 ticks) = 0;
+  virtual void explode() { std::cout << "I don't explode!" << std::endl; }
 
   float getScale() const  { return scale; }
   void  setScale(float s) { scale = s; }

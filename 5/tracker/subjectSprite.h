@@ -13,7 +13,7 @@ class ExplodingSprite;
 
 class SubjectSprite : public Drawable {
 public:
-  
+
   SubjectSprite(const std::string&);
   SubjectSprite(const SubjectSprite&) = default;
   SubjectSprite& operator=(const SubjectSprite&) = default;
