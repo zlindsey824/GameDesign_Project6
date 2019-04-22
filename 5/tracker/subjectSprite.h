@@ -5,16 +5,19 @@
 #include <list>
 #include <cmath>
 #include "drawable.h"
+#include "bullets.h"
 
 class SmartSprite;
 
 class SubjectSprite : public Drawable {
 public:
   SubjectSprite(const std::string&);
-  SubjectSprite(const SubjectSprite&);
+  SubjectSprite(const SubjectSprite&) = default;
+  SubjectSprite& operator=(const SubjectSprite&) = default;
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
+  virtual void shoot();
   void attach( SmartSprite* o ) { observers.push_back(o); }
   void detach( SmartSprite* o );
 
@@ -51,11 +54,15 @@ private:
 
   Vector2f initialVelocity;
 
+  std::string bulletName;
+  Bullets bullets;
+  float bulletSpeed;
+  int bulletInterval;
+  int timeSinceLastBullet;
+
   void advanceFrame(Uint32 ticks);
-  SubjectSprite& operator=(const SubjectSprite&);
 
 protected:
   std::list<SmartSprite*> observers;
-  // SubjectSprite& operator=(const SubjectSprite&);
 };
 #endif

@@ -30,45 +30,40 @@ SubjectSprite::SubjectSprite( const std::string& name) :
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
   initialVelocity(getVelocity()),
+  bulletName(Gamedata::getInstance().getXmlStr(name+"/bulletName")),
+  bullets(bulletName),
+  bulletSpeed(Gamedata::getInstance().getXmlInt(bulletName+"/speedX")),
+  bulletInterval(Gamedata::getInstance().getXmlInt(bulletName+"/interval")),
+  timeSinceLastBullet(0),
   observers()
 { }
 
-SubjectSprite::SubjectSprite(const SubjectSprite& s) :
-  Drawable(s),
-  images(s.images),
-  imagesLeft(s.imagesLeft),
-  imagesRight(s.imagesRight),
-  currentFrame(s.currentFrame),
-  numberOfFrames( s.numberOfFrames ),
-  frameInterval( s.frameInterval ),
-  timeSinceLastFrame( s.timeSinceLastFrame ),
-  worldWidth( s.worldWidth ),
-  worldHeight( s.worldHeight ),
-  initialVelocity( s.initialVelocity ),
-  observers( s.observers )
-  { }
-
-SubjectSprite& SubjectSprite::operator=(const SubjectSprite& s) {
-  Drawable::operator=(s);
-  images = (s.images);
-  imagesLeft = (s.imagesLeft);
-  imagesRight = (s.imagesRight);
-  currentFrame = (s.currentFrame);
-  numberOfFrames = ( s.numberOfFrames );
-  frameInterval = ( s.frameInterval );
-  timeSinceLastFrame = ( s.timeSinceLastFrame );
-  worldWidth = ( s.worldWidth );
-  worldHeight = ( s.worldHeight );
-  initialVelocity = ( s.initialVelocity );
-  return *this;
-}
-
 void SubjectSprite::draw() const {
   images[currentFrame]->draw(getX(), getY(), getScale());
+  bullets.draw();
 }
 
+void SubjectSprite::shoot() {
+    if (timeSinceLastBullet > bulletInterval) {
+    Vector2f vel = getVelocity();
+    float x;
+    float y = getY()+getScaledHeight()/4+11;
+    if ( vel[0] > 0 ) {
+      x = getX()+getScaledWidth()-10;
+      vel[0] += bulletSpeed;
+    }
+    else {
+      x = getX();
+      vel[0] -= bulletSpeed;
+    }
+    bullets.shoot( Vector2f(x, y), vel );
+    timeSinceLastBullet = 0;
+  }
+
+}
+
+
 void SubjectSprite::stop() {
-//  setVelocity( Vector2f(0, 0) );
   setVelocityX( 0.93*getVelocityX() );
   setVelocityY(0);
 }
@@ -109,6 +104,7 @@ void SubjectSprite::detach( SmartSprite* o ) {
 
 void SubjectSprite::update(Uint32 ticks) {
   advanceFrame(ticks);
+  bullets.update(ticks);
 
   std::list<SmartSprite*>::iterator ptr = observers.begin();
   while ( ptr != observers.end() ) {
@@ -136,5 +132,6 @@ void SubjectSprite::update(Uint32 ticks) {
     setVelocityX( -fabs( getVelocityX() ) );
   }
 
+  timeSinceLastBullet += ticks;
   stop();
 }
