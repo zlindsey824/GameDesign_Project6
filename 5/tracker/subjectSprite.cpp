@@ -46,6 +46,10 @@ SubjectSprite::SubjectSprite( const std::string& name) :
 { }
 
 void SubjectSprite::draw() const {
+  if ( explosion ) {
+     explosion->draw();
+     return;
+  }
   images[currentFrame]->draw(getX(), getY(), getScale());
   bullets.draw();
 }
@@ -133,6 +137,14 @@ void SubjectSprite::detach( SmartSprite* o ) {
 }
 
 void SubjectSprite::update(Uint32 ticks) {
+  if ( explosion ) {
+     explosion->update(ticks);
+     if ( explosion->chunkCount() == 0) {
+       delete explosion;
+       explosion = nullptr;
+     }
+     return;
+  }
   advanceFrame(ticks);
   bullets.update(ticks);
 

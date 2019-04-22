@@ -1,37 +1,24 @@
 Name: Shu Zhu
-	Noah Williams
-	Zeandre Lindsey
+    	Noah Williams
+    	Zeandre Lindsey
 
 Course: CPSC 4160
 
-Clemson Email Address: nwilli9@g.clemson.edu
-			zlindse@g.clemson.edu
-			slzhu@g.clemson.edu
+Clemson Email Address:  nwilli9@g.clemson.edu
+                  		  zlindse@g.clemson.edu
+                  			slzhu@g.clemson.edu
 
-Project no: #4
+Project no: #5
 
-Project due date: 3/29/19
+Project due date: 8 AM Monday, April 22nd, 2019
 
-Project description: Adding a player object with controls to move the player with the
-			WASD command buttons. Adding a HUD to the overall game that
-			can be activated and deactivated by pressing F1. Adding 
-			collision detection and AI to the game. 
+Project description: Add an Object Pool, Explosions, Projectiles,
+                     Sound and Music.
 
-The easiest part of this project: The project has become easier due to the project being 
-					split into groups. 
+The easiest part of this project: Implementing the music because we only really had to rename what files were used.
 
-Problems that we had in completing this project: Shu had a problem with remembering how to 
-						draw the rectangle for the HUD, specifically
-						when making the rectangle transparent. 
-						Zeandre had a few problems remembering
-						how to update github and combining all of
-						our work. Noah had problems with figuring 
-						out how to flip the sprites when changing
-						the direction of the player.  
+Problems that I had in completing this project: Getting bullets and explosions to work properly
 
-Distribution of workload: Shu was in charge of making the HUD display and fixing the F1 controls.
-			  Zeandre was in charge of implementing the collision detection. 
-			  Noah was in charge of implementing the WASD controls for the player. 
+Where did I get my Sound and Music? We made all of our own sounds using Bfxr and FL Studio
 
-A few sentences describing my proposed project: It's a game that you control a helicopter
-						and you shoot balloons. Sounds fun eh?
+What Objects did I pool? We pooled our bullets because that made the most sense for us to implement.

@@ -14,7 +14,7 @@
 <myname>Shu Le Zhu, Noah Williams, Zeandre Lindsey</myname>
 
 <numberOfBalloons>25</numberOfBalloons>
-<numOfBullets>5</numOfBullets>
+<numOfBullets>10</numOfBullets>
 
 <view>
   <width>854</width>
@@ -192,7 +192,7 @@
   <speedX>300</speedX>
   <speedY>0</speedY>
   <interval>100</interval>
-  <distance>320</distance>
+  <distance>500</distance>
   <scale>1.0</scale>
   <transparency>false</transparency>
 </helicopterBullet>

@@ -65,7 +65,6 @@ Engine::Engine() :
   strategies.push_back( new PerPixelCollisionStrategy );
   strategies.push_back( new MidPointCollisionStrategy );
 
-  //star->setScale(1.5);
   Viewport::getInstance().setObjectToTrack(player);
   std::cout << "Loading complete" << std::endl;
   hudTips.setVisible(!hudTips.isVisible());
@@ -97,7 +96,7 @@ void Engine::draw() const {
  SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255/2 );
  SDL_RenderDrawRect( renderer, &rect );
 
-  io.writeText("Press F1 for HUD", 30, 90);
+  io.writeText("Press F1 for tips/pool", 30, 90);
 
 
 
@@ -114,14 +113,14 @@ void Engine::draw() const {
   int name_loc_y = 420;
   io.writeText(string_name.str(), nameColor, name_loc_x, name_loc_y);
 
-  io.writeText("Press m to change strategy", 500, 380);
+  // io.writeText("Press m to change strategy", 500, 380);
   for ( const Drawable* sprite : sprites ) {
     sprite->draw();
   }
-  std::stringstream strm;
-  strm << sprites.size() << " Smart Sprites Left";
-  io.writeText(strm.str(), yellow, 30, 120);
-  strategies[currentStrategy]->draw();
+  // std::stringstream strm;
+  // strm << sprites.size() << " Smart Sprites Left";
+  // io.writeText(strm.str(), yellow, 30, 120);
+  // //strategies[currentStrategy]->draw();
   if ( collision ) {
     io.writeText("Oops: Collision", 500, 90);
   }
@@ -138,15 +137,10 @@ void Engine::checkForCollisions() {
       doa->explode();
       sound[1];
       return;
-       player->detach(doa);
-      // delete doa;
-      //
-      // it = sprites.erase(it);
     }
-    else if ( strategies[currentStrategy]->execute(*player, **it) ){
+    else if ( player->collidedWith(*it) ){
       player->explode();
       sound[2];
-      std::cout << "Boom" << std::endl;
       return;
     }
     else ++it;
@@ -159,7 +153,6 @@ void Engine::update(Uint32 ticks) {
 
 	checkForCollisions();
   player->update(ticks);
-  //subjectPlayer->update(ticks);
   for ( Drawable* sprite : sprites ) {
     sprite->update( ticks );
   }
@@ -173,8 +166,6 @@ void Engine::play() {
   Uint32 ticks = clock.getElapsedTicks();
   FrameGenerator frameGen;
 
-  // SDLSound sound;
-
   while ( !done ) {
     // The next loop polls for events, guarding against key bounce:
     while ( SDL_PollEvent(&event) ) {
@@ -186,14 +177,8 @@ void Engine::play() {
           break;
         }
         if (keystate[SDL_SCANCODE_F1]) {
-          // if (clock.isPaused())
-          //   clock.unpause();
-          // else {
-          //   clock.pause();
             hudTips.setVisible(!hudTips.isVisible());
             hudPool.setVisible(!hudTips.isVisible());
-
-          // }
         }
         if ( keystate[SDL_SCANCODE_P] ) {
           if ( clock.isPaused() ) clock.unpause();
