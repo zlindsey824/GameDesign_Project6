@@ -36,6 +36,7 @@ Engine::Engine() :
   clock( Clock::getInstance() ),
   renderer( rc.getRenderer() ),
   hudTips(HudTips::getInstance()),
+  hudPool(HudBulletPool::getInstance()),
   menu(),
   cloud("cloud", Gamedata::getInstance().getXmlInt("cloud/factor")),
   rainbow("rainbow", Gamedata::getInstance().getXmlInt("rainbow/factor")),
@@ -73,6 +74,7 @@ void Engine::draw() const {
   cloud.draw();
   rainbow.draw();
   hudTips.draw();
+  hudPool.draw();
 	for ( const Drawable* sprite : sprites ) {
     sprite->draw();
   }
