@@ -18,6 +18,8 @@ public:
   virtual void draw() const;
   virtual void update(Uint32 ticks);
   virtual void shoot();
+  unsigned int bulletCount() const { return bullets.bulletCount(); }
+  unsigned int freeCount() const { return bullets.freeCount(); }
   void attach( SmartSprite* o ) { observers.push_back(o); }
   void detach( SmartSprite* o );
 

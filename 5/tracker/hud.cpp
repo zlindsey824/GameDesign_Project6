@@ -108,11 +108,11 @@ void HudBulletPool::draw(unsigned int activebuffernum, unsigned int freebuffernu
 
     std::stringstream strm_bullet;
     strm_bullet << "OBJECT BULLET POOL";
-    IoMod::getInstance().writeText(strm_bullet.str(), r.x + width / 2 - 65, r.y + boundary_y);
-    strm_bullet.clear();
+    IoMod::getInstance().writeText(strm_bullet.str(), r.x + 20, r.y + boundary_y);
+    strm_bullet.str("");
     strm_bullet << "bulletslist: " << activebuffernum;
     IoMod::getInstance().writeText(strm_bullet.str(), textColor, r.x + 20, r.y + 40);
-    strm_bullet.clear();
+    strm_bullet.str("");
     strm_bullet << "freelist: " << freebuffernum;
     IoMod::getInstance().writeText(strm_bullet.str(), textColor, r.x + 20, r.y + 65);
   }

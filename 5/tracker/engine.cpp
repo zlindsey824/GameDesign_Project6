@@ -73,8 +73,8 @@ void Engine::draw() const {
   //world.draw();
   cloud.draw();
   rainbow.draw();
-  hudTips.draw();
-  hudPool.draw();
+  //hudTips.draw();
+  hudPool.draw(player->bulletCount(), player->freeCount());
 	for ( const Drawable* sprite : sprites ) {
     sprite->draw();
   }

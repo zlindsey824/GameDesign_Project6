@@ -39,7 +39,7 @@
 
 <!-- Setting for Hud -->
 <hudBulletPool>
-  <width>200</width>
+  <width>300</width>
   <height>100</height>
   <position x="515" y="15"/>
   <backgroundColor r="255" g="255" b="255" a="120"/>
