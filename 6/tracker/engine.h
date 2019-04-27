@@ -36,7 +36,6 @@ private:
 
   SDL_Renderer * const renderer;
   HudTips& hudTips;
-  HudBulletPool& hudPool;
   MenuEngine menu;
   World cloud;
   World rainbow;
@@ -45,9 +44,9 @@ private:
   std::vector<SmartSprite*> sprites;
   std::vector<CollisionStrategy*> strategies;
   int currentStrategy;
+  int playerDeath;
   SDLSound sound;
   bool collision;
-  bool godMode;
   bool makeVideo;
 
 

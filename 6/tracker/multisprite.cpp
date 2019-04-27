@@ -11,13 +11,6 @@ void MultiSprite::explode() {
   }
 }
 
-bool MultiSprite::explosionDone() const {
-  if ( explosion && explosion->chunkCount() == 0 ) {
-    return true;
-  }
-  else return false;
-}
-
 void MultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
 	if (timeSinceLastFrame > frameInterval) {
