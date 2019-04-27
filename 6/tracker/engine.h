@@ -23,7 +23,7 @@ class Engine {
 public:
   Engine ();
   ~Engine ();
-  void play();
+  bool play();
   Engine(const Engine&) = delete;
   Engine& operator=(const Engine&) = delete;
 
@@ -47,6 +47,7 @@ private:
   int currentStrategy;
   SDLSound sound;
   bool collision;
+  bool godMode;
   bool makeVideo;
 
 

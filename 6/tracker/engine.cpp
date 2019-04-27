@@ -48,6 +48,7 @@ Engine::Engine() :
   currentStrategy(0),
   sound(),
   collision(false),
+  godMode(false),
   makeVideo( false )
 
 {
@@ -121,6 +122,11 @@ void Engine::draw() const {
   // strm << sprites.size() << " Smart Sprites Left";
   // io.writeText(strm.str(), yellow, 30, 120);
   // //strategies[currentStrategy]->draw();
+  std::stringstream strm;
+  strm << "God Mode: ";
+  if (godMode) strm << "ON";
+  else strm << "OFF";
+  io.writeText(strm.str(), yellow, 30, 120);
   if ( collision ) {
     io.writeText("Oops: Collision", 500, 90);
   }
@@ -130,15 +136,20 @@ void Engine::draw() const {
 }
 
 void Engine::checkForCollisions() {
-  auto it = sprites.begin();
+  std::vector<SmartSprite*>::iterator it = sprites.begin();
   while ( it != sprites.end() ) {
     if ( player->shot(*it) ) {
       SmartSprite* doa = *it;
       doa->explode();
       sound[1];
+      if ( doa->explosionDone() ) {
+            delete (*it);
+            it = sprites.erase(it);
+            // return;
+      }
       return;
     }
-    else if ( player->collidedWith(*it) ){
+    else if ( player->collidedWith(*it) && !godMode){
       player->explode();
       sound[2];
       return;
@@ -146,6 +157,17 @@ void Engine::checkForCollisions() {
     else ++it;
   }
 }
+
+// if ( (*ptr)->explosionDone() ) {
+//       delete (*ptr);
+//       ptr = sprites.erase(ptr);
+//       if ( sprites.size() > 0 ) {
+//         Viewport::getInstance().setObjectToTrack(sprites.back());
+//       }
+//       else {
+//         explosionsFinished = true;
+//       }
+//     }
 
 void Engine::update(Uint32 ticks) {
   cloud.update();
@@ -159,7 +181,7 @@ void Engine::update(Uint32 ticks) {
   viewport.update(); // always update viewport last
 }
 
-void Engine::play() {
+bool Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
@@ -191,6 +213,13 @@ void Engine::play() {
         }
         if ( keystate[SDL_SCANCODE_E] ) {
           player->explode();
+        }
+        if ( keystate[SDL_SCANCODE_G] ) {
+          godMode = !godMode;
+        }
+        if ( keystate[SDL_SCANCODE_E] ) {
+          clock.unpause();
+          return true;
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;
@@ -231,4 +260,5 @@ void Engine::play() {
       }
     }
   }
+  return false;
 }

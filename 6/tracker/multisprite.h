@@ -16,6 +16,7 @@ public:
   virtual void draw() const;
   virtual void update(Uint32 ticks);
   virtual void explode();
+  virtual bool explosionDone() const;
 
   virtual const Image* getImage() const {
     return images[currentFrame];
