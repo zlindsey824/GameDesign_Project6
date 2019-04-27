@@ -117,3 +117,72 @@ void HudBulletPool::draw(unsigned int activebuffernum, unsigned int freebuffernu
     IoMod::getInstance().writeText(strm_bullet.str(), textColor, r.x + 20, r.y + 65);
   }
 }
+
+
+HudGameOver& HudGameOver::getInstance() {
+  static HudGameOver instance;
+  return instance;
+}
+
+
+HudGameOver::HudGameOver()
+    : width(Gamedata::getInstance().getXmlInt("gameOver/width")),
+      height(Gamedata::getInstance().getXmlInt("gameOver/height")),
+      pos(Vector2f(Gamedata::getInstance().getXmlInt("gameOver/position/x"),
+                   Gamedata::getInstance().getXmlInt("gameOver/position/y"))),
+      visible(false),
+      winBackgroundColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/backgroundColor/r")),
+                          static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/backgroundColor/g")),
+                          static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/backgroundColor/b")),
+                          static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/backgroundColor/a"))}),
+      winTextColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/textColor/r")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/textColor/g")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/textColor/b")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/win/textColor/a"))}),
+      loseBackgroundColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/backgroundColor/r")),
+                           static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/backgroundColor/g")),
+                           static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/backgroundColor/b")),
+                           static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/backgroundColor/a"))}),
+      loseTextColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/textColor/r")),
+                     static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/textColor/g")),
+                     static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/textColor/b")),
+                     static_cast<Uint8>(Gamedata::getInstance().getXmlInt("gameOver/lose/textColor/a"))}) {}
+
+void HudGameOver::draw(bool won) {
+      if (visible) {
+
+      SDL_Rect r;
+      r.x = pos[0];
+      r.y = pos[1];
+      r.w = width;
+      r.h = height;
+
+      SDL_Rect inner;
+      inner.x = pos[0] + 5;
+      inner.y = pos[1] + 5;
+      inner.w = width - 10;
+      inner.h = height - 10;
+
+      SDL_Renderer* renderer = IoMod::getInstance().getRenderer();
+      SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+      std::string textToWrite;
+
+      if (won) {
+      SDL_SetRenderDrawColor(renderer, winBackgroundColor.r, winBackgroundColor.g, winBackgroundColor.b,
+                            winBackgroundColor.a);
+      SDL_RenderFillRect(renderer, &inner);
+      std::stringstream strm2;
+      strm2.str("");
+      strm2 << "YOU WIN!\nPress R to play again!";
+      IoMod::getInstance().writeText(strm2.str(), winTextColor, r.x + boundary_x, r.y + (r.h/2));//4*boundary_y);
+      } else {
+      SDL_SetRenderDrawColor(renderer, loseBackgroundColor.r, loseBackgroundColor.g, loseBackgroundColor.b,
+                            loseBackgroundColor.a);
+      SDL_RenderFillRect(renderer, &inner);
+      std::stringstream strm2;
+      strm2.str("");
+      strm2 << "YOU LOSE!\nPress R to play again!";
+      IoMod::getInstance().writeText(strm2.str(), loseTextColor, r.x + boundary_x, r.y + (r.h/2));//4*boundary_y);
+      }
+}
+}

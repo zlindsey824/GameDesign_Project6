@@ -95,6 +95,12 @@ void SubjectSprite::explode() {
   }
 }
 
+bool SubjectSprite::explosionDone() const {
+  if ( explosion && explosion->chunkCount() == 0 ) {
+    return true;
+  }
+  else return false;
+}
 
 void SubjectSprite::stop() {
   setVelocityX( 0.93*getVelocityX() );

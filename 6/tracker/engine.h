@@ -36,6 +36,8 @@ private:
 
   SDL_Renderer * const renderer;
   HudTips& hudTips;
+  // HudBulletPool& hudPool;
+  HudGameOver& gameEnding;
   MenuEngine menu;
   World cloud;
   World rainbow;
@@ -46,6 +48,7 @@ private:
   int currentStrategy;
   int playerDeath;
   int balloonsExploded;
+  bool explosionsFinished;
   SDLSound sound;
   bool collision;
   bool godMode;

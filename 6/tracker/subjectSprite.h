@@ -28,6 +28,7 @@ public:
   void detach( SmartSprite* o );
   virtual bool shot(const Drawable*);
   virtual void explode();
+  virtual bool explosionDone() const;
   virtual bool collidedWith(const Drawable*);
 
   virtual const Image* getImage() const {

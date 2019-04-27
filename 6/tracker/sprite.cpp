@@ -15,6 +15,8 @@ Vector2f Sprite::makeVelocity(int vx, int vy) const {
   return Vector2f(newvx, newvy);
 }
 
+Sprite::~Sprite() { if ( explosion ) delete explosion; }
+
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
                const Image* img):
   Drawable(n, pos, vel),
@@ -61,12 +63,19 @@ inline namespace{
 
 void Sprite::explode() {
   if ( !explosion ) explosion = new ExplodingSprite(*this);
-  
+}
+
+bool Sprite::explosionDone() const {
+  if ( explosion && explosion->chunkCount() == 0 ) {
+    return true;
+  }
+  else return false;
 }
 
 void Sprite::draw() const {
   if(getScale() < SCALE_EPSILON) return;
-  if ( explosion ) explosion->draw();
+  if ( explosion && explosion->chunkCount() > 0 ) explosion->draw();
+  else if ( explosionDone() ) return;
   else image->draw(getX(), getY(), getScale());
 }
 

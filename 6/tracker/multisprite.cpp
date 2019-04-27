@@ -6,9 +6,17 @@
 
 void MultiSprite::explode() {
   if ( !explosion ) {
-    Sprite sprite(getName(), getPosition(), getVelocity(), getImage());
+    Sprite
+    sprite(getName(), getPosition(), getVelocity(), getImage());
     explosion = new ExplodingSprite( sprite );
   }
+}
+
+bool MultiSprite::explosionDone() const {
+  if ( explosion && explosion->chunkCount() == 0 ) {
+    return true;
+  }
+  else return false;
 }
 
 void MultiSprite::advanceFrame(Uint32 ticks) {
@@ -18,6 +26,8 @@ void MultiSprite::advanceFrame(Uint32 ticks) {
 		timeSinceLastFrame = 0;
 	}
 }
+
+MultiSprite::~MultiSprite( ) { if (explosion) delete explosion; }
 
 MultiSprite::MultiSprite( const std::string& name) :
   Drawable(name,

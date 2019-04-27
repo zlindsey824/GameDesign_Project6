@@ -37,16 +37,19 @@ Engine::Engine() :
   clock( Clock::getInstance() ),
   renderer( rc.getRenderer() ),
   hudTips(HudTips::getInstance()),
+  // hudPool(HudBulletPool::getInstance()),
+  gameEnding(HudGameOver::getInstance()),
   menu(),
   cloud("cloud", Gamedata::getInstance().getXmlInt("cloud/factor")),
   rainbow("rainbow", Gamedata::getInstance().getXmlInt("rainbow/factor")),
   viewport( Viewport::getInstance() ),
   player(new SubjectSprite("Helicopter")),
   sprites(),
-  strategies(),
+  strategies(),  //SDL_Color loseOutlineColor;
   currentStrategy(0),
   playerDeath(0),
   balloonsExploded(0),
+  explosionsFinished(false),
   sound(),
   collision(false),
   godMode(false),
@@ -81,14 +84,7 @@ void Engine::draw() const {
 	for ( const Drawable* sprite : sprites ) {
     sprite->draw();
   }
-  if(playerDeath == 3) {
-  io.writeText("Press R to Restart the Game", 250, 200);
-  clock.pause();
-  }
-  if(balloonsExploded == 10) {
-  io.writeText("Press R to Restart the Game", 250, 200);
-  clock.pause();
-  }
+
 
 
  SDL_Rect rect;
@@ -137,6 +133,20 @@ void Engine::draw() const {
     io.writeText("Oops: Collision", 500, 90);
   }
   player->draw();
+
+  if(playerDeath == 3) {
+    gameEnding.setVisible(true);
+    gameEnding.draw(false);
+    // io.writeText("Press R to Restart the Game", 250, 200);
+    clock.pause();
+  }
+  if(balloonsExploded == 10) {
+    gameEnding.setVisible(true);
+    gameEnding.draw(true);
+    // io.writeText("Press R to Restart the Game", 250, 200);
+    clock.pause();
+  }
+
   viewport.draw();
   SDL_RenderPresent(renderer);
 }
@@ -145,10 +155,19 @@ void Engine::checkForCollisions() {
   auto it = sprites.begin();
   while ( it != sprites.end() ) {
     if ( player->shot(*it) ) {
+      player->detach(*it);
       SmartSprite* doa = *it;
       doa->explode();
+
+      while ( !(doa)->explosionDone() ) {
+        // delete (doa);
+        // it = sprites.erase(it);
+      }
+      delete (doa);
+      it = sprites.erase(it);
+
       sound[1];
-      balloonsExploded++;
+      // balloonsExploded++;
       return;
     }
     else if ( player->collidedWith(*it) && !godMode){
