@@ -23,7 +23,7 @@ class Engine {
 public:
   Engine ();
   ~Engine ();
-  void play();
+  bool play();
   Engine(const Engine&) = delete;
   Engine& operator=(const Engine&) = delete;
 
@@ -36,7 +36,6 @@ private:
 
   SDL_Renderer * const renderer;
   HudTips& hudTips;
-  HudBulletPool& hudPool;
   MenuEngine menu;
   World cloud;
   World rainbow;
@@ -45,6 +44,7 @@ private:
   std::vector<SmartSprite*> sprites;
   std::vector<CollisionStrategy*> strategies;
   int currentStrategy;
+  int playerDeath;
   SDLSound sound;
   bool collision;
   bool makeVideo;
