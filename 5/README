@@ -1,0 +1,24 @@
+Name: Shu Zhu
+    	Noah Williams
+    	Zeandre Lindsey
+
+Course: CPSC 4160
+
+Clemson Email Address:  nwilli9@g.clemson.edu
+                  		  zlindse@g.clemson.edu
+                  			slzhu@g.clemson.edu
+
+Project no: #5
+
+Project due date: 8 AM Monday, April 22nd, 2019
+
+Project description: Add an Object Pool, Explosions, Projectiles,
+                     Sound and Music.
+
+The easiest part of this project: Implementing the music because we only really had to rename what files were used.
+
+Problems that I had in completing this project: Getting bullets and explosions to work properly
+
+Where did I get my Sound and Music? We made all of our own sounds using Bfxr and FL Studio
+
+What Objects did I pool? We pooled our bullets because that made the most sense for us to implement.
