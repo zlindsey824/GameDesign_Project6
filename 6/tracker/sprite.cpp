@@ -61,6 +61,7 @@ inline namespace{
 
 void Sprite::explode() {
   if ( !explosion ) explosion = new ExplodingSprite(*this);
+  
 }
 
 void Sprite::draw() const {

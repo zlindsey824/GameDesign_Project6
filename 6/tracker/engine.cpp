@@ -37,7 +37,6 @@ Engine::Engine() :
   clock( Clock::getInstance() ),
   renderer( rc.getRenderer() ),
   hudTips(HudTips::getInstance()),
-  hudPool(HudBulletPool::getInstance()),
   menu(),
   cloud("cloud", Gamedata::getInstance().getXmlInt("cloud/factor")),
   rainbow("rainbow", Gamedata::getInstance().getXmlInt("rainbow/factor")),
@@ -46,6 +45,7 @@ Engine::Engine() :
   sprites(),
   strategies(),
   currentStrategy(0),
+  playerDeath(0),
   sound(),
   collision(false),
   makeVideo( false )
@@ -67,7 +67,7 @@ Engine::Engine() :
 
   Viewport::getInstance().setObjectToTrack(player);
   std::cout << "Loading complete" << std::endl;
-  hudTips.setVisible(!hudTips.isVisible());
+  hudTips.setVisible(false);
 }
 
 
@@ -76,9 +76,12 @@ void Engine::draw() const {
   cloud.draw();
   rainbow.draw();
   hudTips.draw();
-  hudPool.draw(player->bulletCount(), player->freeCount());
 	for ( const Drawable* sprite : sprites ) {
     sprite->draw();
+  }
+  if(playerDeath == 3) {
+  io.writeText("Press R to Restart the Game", 250, 200);
+  clock.pause();
   }
 
  SDL_Rect rect;
@@ -113,14 +116,9 @@ void Engine::draw() const {
   int name_loc_y = 420;
   io.writeText(string_name.str(), nameColor, name_loc_x, name_loc_y);
 
-  // io.writeText("Press m to change strategy", 500, 380);
   for ( const Drawable* sprite : sprites ) {
     sprite->draw();
   }
-  // std::stringstream strm;
-  // strm << sprites.size() << " Smart Sprites Left";
-  // io.writeText(strm.str(), yellow, 30, 120);
-  // //strategies[currentStrategy]->draw();
   if ( collision ) {
     io.writeText("Oops: Collision", 500, 90);
   }
@@ -141,6 +139,7 @@ void Engine::checkForCollisions() {
     else if ( player->collidedWith(*it) ){
       player->explode();
       sound[2];
+      playerDeath++;
       return;
     }
     else ++it;
@@ -159,7 +158,7 @@ void Engine::update(Uint32 ticks) {
   viewport.update(); // always update viewport last
 }
 
-void Engine::play() {
+bool Engine::play() {
   SDL_Event event;
   const Uint8* keystate;
   bool done = false;
@@ -178,12 +177,16 @@ void Engine::play() {
         }
         if (keystate[SDL_SCANCODE_F1]) {
             hudTips.setVisible(!hudTips.isVisible());
-            hudPool.setVisible(!hudTips.isVisible());
         }
         if ( keystate[SDL_SCANCODE_P] ) {
           if ( clock.isPaused() ) clock.unpause();
           else clock.pause();
         }
+	if ( keystate[SDL_SCANCODE_R] ) {
+          clock.unpause();
+          return true;
+        }
+
         if ( keystate[SDL_SCANCODE_M] ) {
           clock.pause();
           menu.play();
@@ -231,4 +234,5 @@ void Engine::play() {
       }
     }
   }
+return true;
 }

@@ -130,43 +130,13 @@
   </chunk>
 </HelicopterLeft>
 
-<Bluebird>
-  <file>assets/bluebird.png</file>
-  <startLoc x="50" y="140"/>
-  <frames>8</frames>
-  <frameInterval>50</frameInterval>
-  <speedX>200</speedX>
-  <speedY>200</speedY>
-  <transparency>true</transparency>
-</Bluebird>
-
-<Flyinsect>
-  <file>assets/flyinsect.png</file>
-  <startLoc x="500" y="100"/>
-  <frames>2</frames>
-  <frameInterval>50</frameInterval>
-  <speedX>200</speedX>
-  <speedY>200</speedY>
-  <transparency>true</transparency>
-</Flyinsect>
-
-<Flappybird>
-  <file>assets/flappybird.png</file>
-  <startLoc x="600" y="80"/>
-  <frames>4</frames>
-  <frameInterval>50</frameInterval>
-  <speedX>200</speedX>
-  <speedY>200</speedY>
-  <transparency>true</transparency>
-</Flappybird>
-
 <Balloon>
   <file>assets/balloon.png</file>
   <startLoc x="200" y="100"/>
   <frames>4</frames>
   <frameInterval>50</frameInterval>
-  <speedX>400</speedX>
-  <speedY>300</speedY>
+  <speedX>200</speedX>
+  <speedY>200</speedY>
   <safeDistance>75</safeDistance>
   <transparency>true</transparency>
   <chunk>
@@ -174,16 +144,6 @@
     <distance>100</distance>
   </chunk>
 </Balloon>
-
-<Grumpbird>
-  <file>assets/grumpbird.png</file>
-  <startLoc x="700" y="140"/>
-  <frames>8</frames>
-  <frameInterval>50</frameInterval>
-  <speedX>200</speedX>
-  <speedY>200</speedY>
-  <transparency>true</transparency>
-</Grumpbird>
 
 <helicopterBullet>
   <file>assets/heroBullet.png</file>
