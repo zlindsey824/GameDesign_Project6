@@ -46,6 +46,7 @@ Engine::Engine() :
   strategies(),
   currentStrategy(0),
   playerDeath(0),
+  balloonsExploded(0),
   sound(),
   collision(false),
   makeVideo( false )
@@ -83,6 +84,11 @@ void Engine::draw() const {
   io.writeText("Press R to Restart the Game", 250, 200);
   clock.pause();
   }
+  if(balloonsExploded == 10) {
+  io.writeText("Press R to Restart the Game", 250, 200);
+  clock.pause();
+  }
+
 
  SDL_Rect rect;
  rect.x = 15;
@@ -134,6 +140,7 @@ void Engine::checkForCollisions() {
       SmartSprite* doa = *it;
       doa->explode();
       sound[1];
+      balloonsExploded++;
       return;
     }
     else if ( player->collidedWith(*it) ){
@@ -234,5 +241,5 @@ bool Engine::play() {
       }
     }
   }
-return true;
+return false;
 }

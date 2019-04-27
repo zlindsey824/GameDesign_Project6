@@ -45,6 +45,7 @@ private:
   std::vector<CollisionStrategy*> strategies;
   int currentStrategy;
   int playerDeath;
+  int balloonsExploded;
   SDLSound sound;
   bool collision;
   bool makeVideo;
