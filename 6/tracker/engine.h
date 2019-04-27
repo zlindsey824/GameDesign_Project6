@@ -48,6 +48,7 @@ private:
   int balloonsExploded;
   SDLSound sound;
   bool collision;
+  bool godMode;
   bool makeVideo;
 
 

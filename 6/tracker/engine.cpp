@@ -49,6 +49,7 @@ Engine::Engine() :
   balloonsExploded(0),
   sound(),
   collision(false),
+  godMode(false),
   makeVideo( false )
 
 {
@@ -125,6 +126,13 @@ void Engine::draw() const {
   for ( const Drawable* sprite : sprites ) {
     sprite->draw();
   }
+
+  std::stringstream strm;
+  strm << "God Mode: ";
+  if (godMode) strm << "ON";
+  else strm << "OFF";
+  io.writeText(strm.str(), yellow, 30, 120);
+
   if ( collision ) {
     io.writeText("Oops: Collision", 500, 90);
   }
@@ -143,7 +151,7 @@ void Engine::checkForCollisions() {
       balloonsExploded++;
       return;
     }
-    else if ( player->collidedWith(*it) ){
+    else if ( player->collidedWith(*it) && !godMode){
       player->explode();
       sound[2];
       playerDeath++;
@@ -189,11 +197,10 @@ bool Engine::play() {
           if ( clock.isPaused() ) clock.unpause();
           else clock.pause();
         }
-	if ( keystate[SDL_SCANCODE_R] ) {
+	      if ( keystate[SDL_SCANCODE_R] ) {
           clock.unpause();
           return true;
         }
-
         if ( keystate[SDL_SCANCODE_M] ) {
           clock.pause();
           menu.play();
@@ -201,6 +208,9 @@ bool Engine::play() {
         }
         if ( keystate[SDL_SCANCODE_E] ) {
           player->explode();
+        }
+        if ( keystate[SDL_SCANCODE_G] ) {
+          godMode = !godMode;
         }
         if (keystate[SDL_SCANCODE_F4] && !makeVideo) {
           std::cout << "Initiating frame capture" << std::endl;
