@@ -38,6 +38,7 @@ Engine::Engine() :
   renderer( rc.getRenderer() ),
   hudTips(HudTips::getInstance()),
   hudPool(HudBulletPool::getInstance()),
+  hudGameOver(HudGameOver::getInstance()),
   menu(),
   cloud("cloud", Gamedata::getInstance().getXmlInt("cloud/factor")),
   rainbow("rainbow", Gamedata::getInstance().getXmlInt("rainbow/factor")),

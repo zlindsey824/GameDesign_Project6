@@ -58,5 +58,35 @@ class HudBulletPool : public Hud {
   HudBulletPool& operator=(const HudBulletPool&) = delete;
 };
 
+class HudGameOver : public Hud {
+ public:
+  static HudGameOver& getInstance();
+  int getWidth() const { return width; }
+  int getHeight() const { return height; }
+  const Vector2f& getPosition() const { return pos; }
+  virtual bool isVisible() { return visible; }
+  virtual void setVisible(const bool v) { visible = v; }
+  void draw(bool);
+
+ private:
+  Image* gamelose;
+  Image* gamewin;
+  int width;
+  int height;
+  Vector2f pos;
+  bool visible;
+
+  SDL_Color winBackgroundColor;
+  SDL_Color winOutlineColor;
+  SDL_Color winTextColor;
+
+  SDL_Color loseBackgroundColor;
+  SDL_Color loseOutlineColor;
+  SDL_Color loseTextColor;
+
+  HudGameOver();
+  HudGameOver(const HudGameOver&) = delete;
+  HudGameOver& operator=(const HudGameOver&) = delete;
+};
 
 #endif
