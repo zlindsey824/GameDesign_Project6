@@ -37,7 +37,7 @@ private:
   SDL_Renderer * const renderer;
   HudTips& hudTips;
   HudBulletPool& hudPool;
-  HudGameOver& hudGameOver;
+  HudGameOver& gameEnding;
   MenuEngine menu;
   World cloud;
   World rainbow;

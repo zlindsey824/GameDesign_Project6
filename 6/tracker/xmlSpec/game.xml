@@ -47,6 +47,20 @@
   <textColor r="255" g="255" b="255" a="0"/>
 </hudBulletPool>
 
+<gameOver>
+  <width>150</width>
+  <height>50</height>
+  <position x="350" y="250"/>
+  <win>
+    <backgroundColor r="66" g="113" b="244" a="122"/>
+    <textColor r="0" g="0" b="255" a="255"/>
+  </win>
+  <lose>
+    <backgroundColor r="0" g="0" b="0" a="255"/>
+    <textColor r="255" g="0" b="0" a="255"/>
+  </lose>
+</gameOver>
+
 <clickOff>
   <file>assets/clickoff.png</file>
   <startLoc x="340" y="170"/>
@@ -62,6 +76,7 @@
   <speedY>0</speedY>
   <transparency>true</transparency>
 </clickOn>
+
 
 <menu>
   <width>860</width>
