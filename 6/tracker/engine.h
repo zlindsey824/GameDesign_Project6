@@ -43,7 +43,9 @@ private:
   World rainbow;
   Viewport& viewport;
   SubjectSprite* player;
-  std::vector<SmartSprite*> sprites;
+  //std::vector<SmartSprite*> sprites;
+  std::vector<SmartSprite*> balloonList;
+  std::vector<SmartSprite*> freeList;
   std::vector<CollisionStrategy*> strategies;
   int currentStrategy;
   int playerDeath;
