@@ -27,13 +27,15 @@ Engine::~Engine() {
 		  delete balloon;
 		}
   }
-  if (balloonList.size() > 0){
+  if (freeList.size() > 0){
 		for ( SmartSprite* balloon : freeList ) {
 		  delete balloon;
 		}
   }
-  for ( CollisionStrategy* strategy : strategies ) {
-    delete strategy;
+  if (strategies.size() > 0){
+    for ( CollisionStrategy* strategy : strategies ) {
+      delete strategy;
+    }
   }
   std::cout << "Terminating program" << std::endl;
 }
@@ -90,13 +92,13 @@ void Engine::draw() const {
   //world.draw();
   cloud.draw();
   rainbow.draw();
-  
+
 	for ( const SmartSprite* balloon : balloonList ) {
     balloon->draw();
   }
 
 	player->draw();
-	
+
 	hudTips.draw();
 	hudGoal.draw(balloonTotal, balloonList.size(), playerLives);
 
@@ -132,7 +134,7 @@ void Engine::draw() const {
   int name_loc_y = 420;
   io.writeText(string_name.str(), nameColor, name_loc_x, name_loc_y);
 
-  
+
 
   std::stringstream strm;
   strm << "God Mode: ";
@@ -148,7 +150,7 @@ void Engine::draw() const {
   if ( collision ) {
     io.writeText("Oops: Collision", 500, 90);
   }
-  
+
 
   if(playerLives == 0) {
     gameEnding.setVisible(true);
@@ -190,7 +192,7 @@ void Engine::update(Uint32 ticks) {
   cloud.update();
   rainbow.update();
 
-	
+
   player->update(ticks);
 	checkForCollisions();
 	auto ptr = balloonList.begin();
@@ -198,12 +200,12 @@ void Engine::update(Uint32 ticks) {
     (*ptr)->update(ticks);
     if ( (*ptr)->explosionDone() ) {
       freeList.push_back(*ptr);
-      delete (*ptr);
+      //delete (*ptr);
       ptr = balloonList.erase(ptr);
     }
     else ++ptr;
   }
-  
+
   viewport.update(); // always update viewport last
 }
 
