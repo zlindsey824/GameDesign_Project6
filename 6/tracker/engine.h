@@ -36,13 +36,15 @@ private:
 
   SDL_Renderer * const renderer;
   HudTips& hudTips;
-  // HudBulletPool& hudPool;
+  HudGoal& hudGoal;
   HudGameOver& gameEnding;
   MenuEngine menu;
   World cloud;
   World rainbow;
   Viewport& viewport;
   SubjectSprite* player;
+  unsigned int balloonTotal;
+  unsigned int playerLives;
   //std::vector<SmartSprite*> sprites;
   std::vector<SmartSprite*> balloonList;
   std::vector<SmartSprite*> freeList;

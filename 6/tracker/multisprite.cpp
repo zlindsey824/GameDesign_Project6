@@ -13,7 +13,8 @@ void MultiSprite::explode() {
 }
 
 bool MultiSprite::explosionDone() const {
-  if ( explosion && explosion->chunkCount() == 0 ) {
+  if ( explosion && explosion->chunkCount() <= 5 ) {
+  	
     return true;
   }
   else return false;

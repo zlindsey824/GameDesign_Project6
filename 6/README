@@ -1,24 +1,25 @@
-Name: Shu Zhu
-    	Noah Williams
-    	Zeandre Lindsey
+Name:
+	Zeandre Lindsey
+	Shu Zhu
+	Noah williams
 
-Course: CPSC 4160
+Course:
+	CPSC 4160
 
-Clemson Email Address:  nwilli9@g.clemson.edu
-                  		  zlindse@g.clemson.edu
-                  			slzhu@g.clemson.edu
+Clemson Email Address:
+	zlindse@g.clemson.edu
+	slzhu@g.clemson.edu
+	nwilli9@g.clemson.edu
 
-Project no: #5
+Final Project: #6
 
-Project due date: 8 AM Monday, April 22nd, 2019
+Project due date: May 1st, 2019 at 8 AM
 
-Project description: Add an Object Pool, Explosions, Projectiles,
-                     Sound and Music.
+Project description:
+	We added a conclusion to our game by making the oal to shoot all the balloons
+	without blowing up (getting touched by a balloon) 3 times. One of our hiccups 
+	was getting the balloons to actually blow up but not respawn. However, we 
+	fixed that by adjusting the explosionDone function.
 
-The easiest part of this project: Implementing the music because we only really had to rename what files were used.
-
-Problems that I had in completing this project: Getting bullets and explosions to work properly
-
-Where did I get my Sound and Music? We made all of our own sounds using Bfxr and FL Studio
-
-What Objects did I pool? We pooled our bullets because that made the most sense for us to implement.
+The Pizzazz feature that I added:
+Based on the examples provided, our pizzazz would be the menu.

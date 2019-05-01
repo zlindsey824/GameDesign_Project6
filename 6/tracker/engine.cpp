@@ -22,11 +22,15 @@ Engine::~Engine() {
 
 
   delete player;
-  for ( SmartSprite* balloon : balloonList ) {
-    delete balloon;
+  if (balloonList.size() > 0){
+		for ( SmartSprite* balloon : balloonList ) {
+		  delete balloon;
+		}
   }
-  for ( SmartSprite* balloon : freeList ) {
-    delete balloon;
+  if (balloonList.size() > 0){
+		for ( SmartSprite* balloon : freeList ) {
+		  delete balloon;
+		}
   }
   for ( CollisionStrategy* strategy : strategies ) {
     delete strategy;
@@ -40,13 +44,15 @@ Engine::Engine() :
   clock( Clock::getInstance() ),
   renderer( rc.getRenderer() ),
   hudTips(HudTips::getInstance()),
-  // hudPool(HudBulletPool::getInstance()),
+  hudGoal(HudGoal::getInstance()),
   gameEnding(HudGameOver::getInstance()),
   menu(),
   cloud("cloud", Gamedata::getInstance().getXmlInt("cloud/factor")),
   rainbow("rainbow", Gamedata::getInstance().getXmlInt("rainbow/factor")),
   viewport( Viewport::getInstance() ),
   player(new SubjectSprite("Helicopter")),
+  balloonTotal(Gamedata::getInstance().getXmlInt("numberOfBalloons")),
+  playerLives(Gamedata::getInstance().getXmlInt("numberOfLives")),
   balloonList(),
   freeList(),
   strategies(),  //SDL_Color loseOutlineColor;
@@ -60,13 +66,12 @@ Engine::Engine() :
   makeVideo( false )
 
 {
- int n = Gamedata::getInstance().getXmlInt("numberOfBalloons");
-  balloonList.reserve(n);
-  freeList.reserve(n);
+  balloonList.reserve(balloonTotal);
+  freeList.reserve(balloonTotal);
   Vector2f pos = player->getPosition();
   int w = player->getScaledWidth();
   int h = player->getScaledHeight();
-  for (int i = 0; i < n; ++i) {
+  for (unsigned int i = 0; i < balloonTotal; ++i) {
     balloonList.push_back( new SmartSprite("Balloon", pos, w, h) );
     player->attach( balloonList[i] );
   }
@@ -85,12 +90,15 @@ void Engine::draw() const {
   //world.draw();
   cloud.draw();
   rainbow.draw();
-  hudTips.draw();
+  
 	for ( const SmartSprite* balloon : balloonList ) {
     balloon->draw();
   }
 
-
+	player->draw();
+	
+	hudTips.draw();
+	hudGoal.draw(balloonTotal, balloonList.size(), playerLives);
 
  SDL_Rect rect;
  rect.x = 15;
@@ -131,24 +139,24 @@ void Engine::draw() const {
   if (godMode) strm << "ON";
   else strm << "OFF";
   io.writeText(strm.str(), yellow, 30, 120);
-  
+  /*
   std::stringstream strmNum;
-  strmNum << balloonList.size() << " balloons Left";
+  strmNum << balloonsExploded << " balloons shot";
   io.writeText(strmNum.str(), yellow, 30, 150);
-  //strategies[currentStrategy]->draw();
+  */
 
   if ( collision ) {
     io.writeText("Oops: Collision", 500, 90);
   }
-  player->draw();
+  
 
-  if(playerDeath == 3) {
+  if(playerLives == 0) {
     gameEnding.setVisible(true);
     gameEnding.draw(false);
     // io.writeText("Press R to Restart the Game", 250, 200);
     clock.pause();
   }
-  if(balloonsExploded == 10) {
+  if(balloonList.size() == 0) {
     gameEnding.setVisible(true);
     gameEnding.draw(true);
     // io.writeText("Press R to Restart the Game", 250, 200);
@@ -160,26 +168,21 @@ void Engine::draw() const {
 }
 
 void Engine::checkForCollisions() {
-  auto it = balloonList.begin();
-  while ( it != balloonList.end() ) {
+  auto ptr = balloonList.begin();
+  while ( ptr != balloonList.end() ) {
     //(*it)->update( ticks );
-    if ( player->shot(*it) ) {
-      player->detach(*it);
-      //SmartSprite* doa = *it;
-      (*it)->explode();
-      
-			
-			//++it;
+    if ( player->shot(*ptr) ) {
+      player->detach(*ptr);
+      SmartSprite* temp = *ptr;
+      temp->explode();
       sound[1];
-      // balloonsExploded++;
-      return;
     }
-    else if ( player->collidedWith(*it) && !godMode){
+    else if ( player->collidedWith(*ptr) && !godMode){
       player->explode();
       sound[2];
-      playerDeath++;
+      playerLives--;
     }
-    else ++it;
+    else ++ptr;
   }
 }
 
@@ -189,32 +192,14 @@ void Engine::update(Uint32 ticks) {
 
 	
   player->update(ticks);
-
+	checkForCollisions();
 	auto ptr = balloonList.begin();
   while ( ptr != balloonList.end() ) {
     (*ptr)->update(ticks);
-    //checkForCollisions();
-    if ( player->shot(*ptr) ) {
-      player->detach(*ptr);
-      (*ptr)->explode();
-      sound[1];
-      freeList.
-      push_back(*ptr);
-      ptr = balloonList.erase(ptr);
-      //return;
-    }
-    else if ( player->collidedWith(*ptr) && !godMode){
-      player->explode();
-      sound[2];
-      playerDeath++;
-    }
-    
-	  if ( (*ptr)->explosionDone() ) {
-	  
-	  	std::cout << "done" << std::endl;
+    if ( (*ptr)->explosionDone() ) {
+      freeList.push_back(*ptr);
       delete (*ptr);
       ptr = balloonList.erase(ptr);
-      freeList.push_back(*ptr);
     }
     else ++ptr;
   }
@@ -240,6 +225,7 @@ bool Engine::play() {
           break;
         }
         if (keystate[SDL_SCANCODE_F1]) {
+        		hudGoal.setVisible(!hudGoal.isVisible());
             hudTips.setVisible(!hudTips.isVisible());
         }
         if ( keystate[SDL_SCANCODE_P] ) {
@@ -254,9 +240,6 @@ bool Engine::play() {
           clock.pause();
           menu.play();
           clock.unpause();
-        }
-        if ( keystate[SDL_SCANCODE_E] ) {
-          player->explode();
         }
         if ( keystate[SDL_SCANCODE_G] ) {
           godMode = !godMode;

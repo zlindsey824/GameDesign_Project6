@@ -57,10 +57,12 @@ void Bullets::shoot(const Vector2f& pos, const Vector2f& objVel) {
 	}
 }
 
-bool Bullets::collided(const Drawable* obj) const {
+bool Bullets::collided(const Drawable* obj){
   std::list<Bullet>::const_iterator ptr = bulletList.begin();
   while (ptr != bulletList.end()) {
     if ( strategy->execute(*ptr, *obj) ) {
+    	freeList.push_back(*ptr);
+      ptr = bulletList.erase(ptr);
       return true;
     }
     ++ptr;

@@ -66,31 +66,31 @@ void HudTips::draw() {
 }
 
 
-HudBulletPool& HudBulletPool::getInstance() {
-  static HudBulletPool instance;
+HudGoal& HudGoal::getInstance() {
+  static HudGoal instance;
   return instance;
 }
 
-HudBulletPool::HudBulletPool()
-    : width(Gamedata::getInstance().getXmlInt("hudBulletPool/width")),
-      height(Gamedata::getInstance().getXmlInt("hudBulletPool/height")),
-      pos(Vector2f(Gamedata::getInstance().getXmlInt("hudBulletPool/position/x"),
-                   Gamedata::getInstance().getXmlInt("hudBulletPool/position/y"))),
+HudGoal::HudGoal()
+    : width(Gamedata::getInstance().getXmlInt("hudGoal/width")),
+      height(Gamedata::getInstance().getXmlInt("hudGoal/height")),
+      pos(Vector2f(Gamedata::getInstance().getXmlInt("hudGoal/position/x"),
+                   Gamedata::getInstance().getXmlInt("hudGoal/position/y"))),
       visible(true),
-      backgroundColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/r")),
-                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/g")),
-                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/b")),
-                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/backgroundColor/a"))}),
-      outlineColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/r")),
-                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/g")),
-                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/b")),
-                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/outlineColor/a"))}),
-      textColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/r")),
-                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/g")),
-                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/b")),
-                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudBulletPool/textColor/a"))}) {}
+      backgroundColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/backgroundColor/r")),
+                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/backgroundColor/g")),
+                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/backgroundColor/b")),
+                       static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/backgroundColor/a"))}),
+      outlineColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/outlineColor/r")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/outlineColor/g")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/outlineColor/b")),
+                    static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/outlineColor/a"))}),
+      textColor({static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/textColor/r")),
+                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/textColor/g")),
+                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/textColor/b")),
+                 static_cast<Uint8>(Gamedata::getInstance().getXmlInt("hudGoal/textColor/a"))}) {}
 
-void HudBulletPool::draw(unsigned int activebuffernum, unsigned int freebuffernum) {
+void HudGoal::draw(unsigned int balloonsTotal, unsigned int balloonsLeft, unsigned int livesLeft) {
   if (isVisible()) {
     SDL_Renderer* renderer = IoMod::getInstance().getRenderer();
 
@@ -107,13 +107,13 @@ void HudBulletPool::draw(unsigned int activebuffernum, unsigned int freebuffernu
     SDL_RenderDrawRect(renderer, &r);
 
     std::stringstream strm_bullet;
-    strm_bullet << "OBJECT BULLET POOL";
+    strm_bullet << "Shoot all " << balloonsTotal <<" balloons!";
     IoMod::getInstance().writeText(strm_bullet.str(), r.x + 20, r.y + boundary_y);
     strm_bullet.str("");
-    strm_bullet << "bulletslist: " << activebuffernum;
+    strm_bullet << "Lives left: " << livesLeft;
     IoMod::getInstance().writeText(strm_bullet.str(), textColor, r.x + 20, r.y + 40);
     strm_bullet.str("");
-    strm_bullet << "freelist: " << freebuffernum;
+    strm_bullet << "Balloons left: " << balloonsLeft;
     IoMod::getInstance().writeText(strm_bullet.str(), textColor, r.x + 20, r.y + 65);
   }
 }
